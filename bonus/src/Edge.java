@@ -3,10 +3,6 @@ public class Edge {
     private final Vertex destination;
     private final int weight;
 
-    public Edge(Vertex source, Vertex destination) {
-        this(source, destination, 1);
-    }
-
     public Edge(Vertex source, Vertex destination, int weight) {
         this.source = source;
         this.destination = destination;

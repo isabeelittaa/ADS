@@ -10,10 +10,6 @@ public class Graph {
         adjacency.putIfAbsent(id, new ArrayList<>());
     }
 
-    public void addEdge(int from, int to) {
-        addEdge(from, to, 1);
-    }
-
     public void addEdge(int from, int to, int weight) {
         requireVertex(from);
         requireVertex(to);
@@ -27,7 +23,7 @@ public class Graph {
     }
 
     public void printGraph() {
-        System.out.println("--- Adjacency list ---");
+        System.out.println("--- Weighted adjacency list ---");
         List<Integer> ids = new ArrayList<>(vertices.keySet());
         Collections.sort(ids);
 
@@ -44,55 +40,6 @@ public class Graph {
 
     public int getVertexCount() {
         return vertices.size();
-    }
-
-    public void bfs(int start) {
-        requireVertex(start);
-
-        Set<Integer> visited = new HashSet<>();
-        Queue<Integer> queue = new ArrayDeque<>();
-        List<Integer> order = new ArrayList<>();
-
-        visited.add(start);
-        queue.add(start);
-
-        while (!queue.isEmpty()) {
-            int current = queue.poll();
-            order.add(current);
-
-            for (Edge edge : adjacency.get(current)) {
-                int neighbor = edge.getDestination().getId();
-                if (!visited.contains(neighbor)) {
-                    visited.add(neighbor);
-                    queue.add(neighbor);
-                }
-            }
-        }
-
-        System.out.println("BFS from " + start + ": " + order);
-    }
-
-    public void dfs(int start) {
-        requireVertex(start);
-
-        Set<Integer> visited = new HashSet<>();
-        List<Integer> order = new ArrayList<>();
-
-        dfsVisit(start, visited, order);
-
-        System.out.println("DFS from " + start + ": " + order);
-    }
-
-    private void dfsVisit(int current, Set<Integer> visited, List<Integer> order) {
-        visited.add(current);
-        order.add(current);
-
-        for (Edge edge : adjacency.get(current)) {
-            int neighbor = edge.getDestination().getId();
-            if (!visited.contains(neighbor)) {
-                dfsVisit(neighbor, visited, order);
-            }
-        }
     }
 
     public void dijkstra(int start) {
@@ -160,24 +107,5 @@ public class Graph {
             }
         }
         return max;
-    }
-
-    public static Graph createSampleDirected(int n) {
-        Graph g = new Graph();
-
-        for (int i = 0; i < n; i++) {
-            g.addVertex(new Vertex(i));
-        }
-
-        for (int i = 0; i < n - 1; i++) {
-            g.addEdge(i, i + 1);
-        }
-
-        if (n >= 4) {
-            g.addEdge(0, n / 2);
-            g.addEdge(n / 4, (3 * n) / 4);
-        }
-
-        return g;
     }
 }
